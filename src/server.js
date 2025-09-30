@@ -1,10 +1,11 @@
 // i used piceces of code from the week 3 examples as a baseline.
 // ill be honest though, i like... kinda half understand how it works.
 // i apologize.
-//const http = require('http');
+const http = require('http');
 const htmlHandler = require('./htmlResponses.js');
 const mediaHandler = require('./mediaResponses.js');
-const responseHandler = require('./responses.js');
+
+const jsonHandler = require('./jsonResponses.js')
 
 // set the port. process.env.PORT and NODE_PORT are for servers like heroku
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
@@ -13,13 +14,11 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const urlStruct = {
   '/': htmlHandler.getIndex,
   '/style.css': mediaHandler.getCSS,
-  '/success': responseHandler.getSuccess,
-  '/badRequest': responseHandler.getBadRequest,
-  '/unauthorized': responseHandler.getUnauthorized,
-  '/forbidden': responseHandler.getForbidden,
-  '/internal': responseHandler.getInternal,
-  '/notImplemented': responseHandler.getNotImplemented,
-  notFound: responseHandler.getNotFound, // default
+  '/client.js': mediaHandler.getClientJS,
+  '/docs.html': htmlHandler.getDocs,
+  '/api/books': jsonHandler.getBooks,
+  // ...
+  notFound: jsonHandler.getNotFound, // default
 };
 
 // handle HTTP requests. In node the HTTP server will automatically
