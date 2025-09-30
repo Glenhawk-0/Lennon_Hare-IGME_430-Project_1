@@ -1,10 +1,11 @@
 {
   "name": "lennon_hare-igme_430-project_1",
   "version": "1.0.0",
-  "description": "Project 1",
+  "description": "project 1",
   "main": "./src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/server.js",
+    "test": "echo \"Test complete\""
   },
   "repository": {
     "type": "git",
@@ -15,10 +16,5 @@
   "bugs": {
     "url": "https://github.com/Glenhawk-0/Lennon_Hare-IGME_430-Project_1/issues"
   },
-  "homepage": "https://github.com/Glenhawk-0/Lennon_Hare-IGME_430-Project_1#readme",
-  "devDependencies": {
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.32.0"
-  }
+  "homepage": "https://github.com/Glenhawk-0/Lennon_Hare-IGME_430-Project_1#readme"
 }
