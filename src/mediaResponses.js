@@ -1,9 +1,8 @@
-// src/mediaResponses.js
 
 const fs = require('fs');
 
 
-const css = fs.readFileSync(`${__dirname}/../client/docs.html`);
+const css = fs.readFileSync(`${__dirname}/../client/style.css`);
 
 const getCSS = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/css' });
