@@ -1,7 +1,6 @@
 const fs = require('fs'); // pull in the file system module
-//const { request } = require('http');
-const path = require('path');
-
+// const { request } = require('http');
+// const path = require('path');
 
 const books = JSON.parse(fs.readFileSync(`${__dirname}/../dataset/books.json`));
 
@@ -17,16 +16,15 @@ const respondJSON = (request, response, status, object) => {
   // that data would be ('Content-Length')
   const headers = {
     'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(content, 'utf8'),//does that utf8 stay?
+    'Content-Length': Buffer.byteLength(content, 'utf8'), // does that utf8 stay?
   };
 
   // send response with json object
   response.writeHead(status, headers);
 
-
   // HEAD requests don't get a body back, just the metadata.
   // So if the user made one, we don't want to write the body.
-  if (request.method !== 'HEAD') { //not sure if this is needed. 
+  if (request.method !== 'HEAD') { // not sure if this is needed.
     response.write(content);
   }//
 
@@ -41,7 +39,6 @@ const getBooks = (request, response) => {
   respondJSON(request, response, 200, responseJSON);
 };
 
-
 // notFound
 const getNotFound = (request, response) => {
   const responseJSON = {
@@ -50,8 +47,6 @@ const getNotFound = (request, response) => {
   };
   respondJSON(request, response, 404, responseJSON);
 };
-
-
 
 module.exports = {
   getBooks,

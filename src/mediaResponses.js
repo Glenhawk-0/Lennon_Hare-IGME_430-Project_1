@@ -1,6 +1,4 @@
-
 const fs = require('fs');
-
 
 const css = fs.readFileSync(`${__dirname}/../client/style.css`);
 
@@ -9,8 +7,6 @@ const getCSS = (request, response) => {
   response.write(css);
   response.end();
 };
-
-
 
 module.exports = {
   getCSS,

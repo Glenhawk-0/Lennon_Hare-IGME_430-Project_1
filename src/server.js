@@ -5,7 +5,7 @@ const http = require('http');
 const htmlHandler = require('./htmlResponses.js');
 const mediaHandler = require('./mediaResponses.js');
 
-const jsonHandler = require('./jsonResponses.js')
+const jsonHandler = require('./jsonResponses.js');
 
 // set the port. process.env.PORT and NODE_PORT are for servers like heroku
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
