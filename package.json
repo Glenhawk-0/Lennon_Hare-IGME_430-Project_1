@@ -5,6 +5,7 @@
   "main": "./src/server.js",
   "scripts": {
     "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
     "test": "echo \"Test complete\""
   },
   "repository": {
@@ -16,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/Glenhawk-0/Lennon_Hare-IGME_430-Project_1/issues"
   },
-  "homepage": "https://github.com/Glenhawk-0/Lennon_Hare-IGME_430-Project_1#readme"
+  "homepage": "https://github.com/Glenhawk-0/Lennon_Hare-IGME_430-Project_1#readme",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.32.0"
+  }
 }
