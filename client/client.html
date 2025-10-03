@@ -35,9 +35,11 @@
           content.innerHTML = `<b>Resource Not Found</b>`;
           break;
         default: //any other status code
-          content.innerHTML = `Error code not implemented by client.`;
+          content.innerHTML = `Error code not implemented by client`;
           break;
       }
+      content.innerHTML += `<a>:${response.status}</a>`;
+ 
 
       //If we should parse a response (meaning we made a get request)
       //shouldnt be a head request
@@ -50,7 +52,7 @@
 
       //If we have a message, display it.
       if(obj.books){
-
+     content.innerHTML += `<p>Content length: ${obj.books.length}</p>`;//may change this
         //let jsonString = JSON.stringify(obj.books); 
        // content.innerHTML += `<p>${jsonString}</p>`;
 
@@ -58,11 +60,11 @@
             const book =  obj.books[i];
             content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
            //make it like a tab for more info or something later. 
-            content.innerHTML += `<p>Page#:${book.pages} ,Language:${book.language} , Country:${book.country}</p>`
+           /* content.innerHTML += `<p>Page#:${book.pages} ,Language:${book.language} , Country:${book.country}</p>`
            //add this to like the title in a way. 
             content.innerHTML += `<p>link: ${book.link}</p>`
 //spacer
-            content.innerHTML += `<p>____</p>`
+            content.innerHTML += `<p>____</p>`*/
         }
 
         //content.innerHTML += `<p>${obj.book}</p>`;
@@ -72,6 +74,9 @@
 
     }//end of parseResponse //
   };//end of HandleResponse
+
+
+
 
    //Uses fetch to send a postRequest. Marksed as async because we use await
     //within it.
@@ -109,12 +114,23 @@
       
       //Grab the url and method from the html form below
       // const url = form.querySelector('#action').value;// this would need an id...
-      //const method = form.querySelector('#methodSelect').value;
+      const method = form.querySelector('#methodSelect').value;
         const url = form.getAttribute('action');
-        const method = form.getAttribute('method');
+        //const method = form.getAttribute('method');
       
+        //inbetween step for the users stuff
+        let finalUrl = url;
+        //Grab the url and method from the html form below
+        const author = form.querySelector('#authorField').value
+        if (author == true && method === 'get') {
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+          finalUrl += `?author=${encodeURIComponent(author)}`;
+        }
+        
+
       //Await our fetch response. Go to the URL, use the right method, and attach the headers.
-      let response = await fetch(url, {
+      let response = await fetch(finalUrl, {
         method,
         headers: {
             'Accept': 'application/json'
@@ -166,15 +182,32 @@ window.onload = init;
 
   </script>
 </head>
+
+
 <body>
   <section id="top">
-    <h3>Get books</h3>
+    <h3>Test /api/books</h3>
+
     <form id="bookForm" action="/api/books" method="get">
+      <!--toggle for GET and HEAD-->
+      <a>Method Select:</a>
+      <select id="methodSelect" name="methodSelect">
+        <option value="get">GET</option>
+         <option value="head">HEAD</option>
+      </select>
+<br>
+
+ <a>Author:</a>
+<input id="authorField" type="text" name="author"></input> 
+<br>
+
+
       <input type="submit" value="Load All Books" />
     </form>
-
   </section>
+
   <section id="content">
   </section>
+
 </body>
 </html>

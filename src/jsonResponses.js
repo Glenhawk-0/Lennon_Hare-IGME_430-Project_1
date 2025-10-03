@@ -32,9 +32,54 @@ const respondJSON = (request, response, status, object) => {
 };// end of respondJSON
 
 // return Book object as JSON
+// got to add alot more to this, varible searches
 const getBooks = (request, response) => {
+  //somehow make this a varible thingy
+  let filteredBooks = books;
+
+  //check if it wants the author
+  //.query functionality found on Developer.mozilla, a life saver
+//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
+  if (request.query.author) { 
+    const authorSearch = request.query.author.toLowerCase(); // was causing problems without the to lowercase. 
+    const results = [];
+
+    for (let i = 0; i < filteredBooks.length; i++) {
+    
+      //if(filteredBooks[i].author.toLowerCase() === authorSearch.toLowerCase()){
+      if(filteredBooks[i].author.toLowerCase().includes(authorSearch)){//using includes for partial search. w3Schools
+        //https://www.w3schools.com/jsref/jsref_includes.asp
+        results.push(filteredBooks[i]);
+      }
+
+    }//end for loop
+
+    filteredBooks = results;
+  }//end request author
+  
+
+
+  //check if it wants the year
+  if (request.query.year) { 
+    const yearSearch = `${request.query.year}` ;//took way too long to fix, this has to be string
+    const results = [];
+
+    for (let i = 0; i < filteredBooks.length; i++) {
+    
+      if(filteredBooks[i].year === yearSearch){
+        results.push(filteredBooks[i]);
+      }
+
+    }//end for loop
+
+    filteredBooks = results;
+  }//end request year
+
+
+  
+  
   const responseJSON = {
-    books,
+    books: filteredBooks,
   };
   respondJSON(request, response, 200, responseJSON);
 };
