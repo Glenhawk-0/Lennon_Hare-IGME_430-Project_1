@@ -16,6 +16,7 @@ const urlStruct = {
   '/style.css': mediaHandler.getCSS,
   '/docs.html': htmlHandler.getDocs,
   '/api/books': jsonHandler.getBooks,
+  '/api/books/random': jsonHandler.getRandomBook,
   // ...
   notFound: jsonHandler.getNotFound, // default
 };

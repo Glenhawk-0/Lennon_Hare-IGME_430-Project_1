@@ -68,7 +68,16 @@
         }
 
         //content.innerHTML += `<p>${obj.book}</p>`;
-      }
+      }//end if obj.books (plural)
+
+
+      //for a single book
+      if(obj.book){
+                  //const book =  obj.books[i];
+                  const book =  obj.book;
+            content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
+
+      }//end obj.book (singular)
 
 
 
@@ -116,17 +125,48 @@
       // const url = form.querySelector('#action').value;// this would need an id...
       const method = form.querySelector('#methodSelect').value;
         const url = form.getAttribute('action');
+
         //const method = form.getAttribute('method');
       
         //inbetween step for the users stuff
         let finalUrl = url;
         //Grab the url and method from the html form below
-        const author = form.querySelector('#authorField').value
+        //.trim i had ai look the thing over and it was all like 
+        // WOAhhh yyoyuuu need TRIM. so i looked it up and well... yeah sure
+        //.trim w3Schools https://www.w3schools.com/jsref/jsref_trim_string.asp
+        const author = form.querySelector('#authorField').value.trim();
+        const year = form.querySelector('#yearField').value.trim();
+       //check if not only head
+        if(method === 'get'){
+          //temporary variable for combining authour and year arrays
+          //https://www.w3schools.com/jsref/jsref_join.asp
+          let params = [];
+          if (author != "") {
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`author=${encodeURIComponent(author)}`);
+          }
+          if (year != "") {
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`year=${encodeURIComponent(year)}`);
+          }
+
+          if (params.length > 0 ) {
+            //.join w3schools https://www.w3schools.com/jsref/jsref_join.asp
+            finalUrl += '?' +params.join('&');
+          }
+
+        }// end of method === get
+       
+       /*
         if (author == true && method === 'get') {
           //this line here was gotten with the help of w3Schools
           // apparently encodeUri helps with like... spaces or something
           finalUrl += `?author=${encodeURIComponent(author)}`;
-        }
+        }*/
         
 
       //Await our fetch response. Go to the URL, use the right method, and attach the headers.
@@ -200,9 +240,13 @@ window.onload = init;
  <a>Author:</a>
 <input id="authorField" type="text" name="author"></input> 
 <br>
+<a>Year:</a>
+<input id="yearField" type="text" name="year"></input> 
+<br>
 
 
       <input type="submit" value="Load All Books" />
+
     </form>
   </section>
 

@@ -61,12 +61,12 @@ const getBooks = (request, response) => {
 
   //check if it wants the year
   if (request.query.year) { 
-    const yearSearch = `${request.query.year}` ;//took way too long to fix, this has to be string
+    const yearSearch = request.query.year ;
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
-    
-      if(filteredBooks[i].year === yearSearch){
+    //took way too long to fix, this has to be string
+      if(`${filteredBooks[i].year}` === `${yearSearch}`){
         results.push(filteredBooks[i]);
       }
 
@@ -77,24 +77,44 @@ const getBooks = (request, response) => {
 
 
   
+
+  
   
   const responseJSON = {
     books: filteredBooks,
   };
   respondJSON(request, response, 200, responseJSON);
-};
+};//end of getBooks
 
-// notFound
+//endpoint, this one will return a random book
+const getRandomBook = (request, response) => {
+//gotten from w3Schools https://www.w3schools.com/js/js_random.asp
+  const randomNumber = Math.floor(Math.random() * books.length);
+  
+  
+    const responseJSON = {
+    book: books[randomNumber],
+  };
+  respondJSON(request, response, 200, responseJSON);
+
+};// end of getRandomBook
+
+
+
+
+// endpoint: this will return not found
 const getNotFound = (request, response) => {
   const responseJSON = {
     message: 'The requested resource was not found.',
     id: 'notFound',
   };
   respondJSON(request, response, 404, responseJSON);
-};
+};//end of getNotFound
+
 
 module.exports = {
   getBooks,
+  getRandomBook,
   getNotFound,
 
 };
