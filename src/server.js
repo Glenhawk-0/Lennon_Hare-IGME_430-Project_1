@@ -47,7 +47,8 @@ const onRequest = (request, response) => {
 
   // grab the 'accept' headers (comma delimited) and split them into an array
   // store them inside of the request object for use in handler functions
-  // request.acceptedTypes = request.headers.accept.split(','); // needs to be an if statement now
+  // request.acceptedTypes = request.headers.accept.split(',');
+  //  // needs to be an if statement now
   if (request.headers.accept) {
     request.acceptedTypes = request.headers.accept.split(',');
   } else {

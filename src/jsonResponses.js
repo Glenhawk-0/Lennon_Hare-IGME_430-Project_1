@@ -40,13 +40,13 @@ const getBooks = (request, response) => {
   //.query functionality found on Developer.mozilla, a life saver
 //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
   if (request.query.author) { 
-    const authorSearch = request.query.author.toLowerCase(); // was causing problems without the to lowercase. 
+    const authorSearch = request.query.author.toLowerCase(); 
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
     
       //if(filteredBooks[i].author.toLowerCase() === authorSearch.toLowerCase()){
-      if(filteredBooks[i].author.toLowerCase().includes(authorSearch)){//using includes for partial search. w3Schools
+      if(filteredBooks[i].author.toLowerCase().includes(authorSearch)){
         //https://www.w3schools.com/jsref/jsref_includes.asp
         results.push(filteredBooks[i]);
       }
@@ -61,14 +61,14 @@ const getBooks = (request, response) => {
   //.query functionality found on Developer.mozilla, a life saver
 //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
   if (request.query.title) { 
-    const titleSearch = request.query.title.toLowerCase(); // was causing problems without the to lowercase. 
+    const titleSearch = request.query.title.toLowerCase(); 
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
     
       //if(filteredBooks[i].title.toLowerCase() === titleSearch.toLowerCase()){
-      if(filteredBooks[i].title.toLowerCase().includes(titleSearch)){//using includes for partial search. w3Schools
-        //https://www.w3schools.com/jsref/jsref_includes.asp
+      if(filteredBooks[i].title.toLowerCase().includes(titleSearch)){//
+        // partial search. w3Schools https://www.w3schools.com/jsref/jsref_includes.asp
         results.push(filteredBooks[i]);
       }
 
@@ -165,7 +165,8 @@ const getBookLength = (request, response) => {
   let filteredBooks = books;
 
   
-/// change this whole thing so that it acepts a minimum and maximum number of pages and searches between 
+/// change this whole thing so that it acepts
+//  a minimum and maximum number of pages and searches between 
 
   //check if it wants the year
   if (request.query.pages) { 
