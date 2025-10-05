@@ -49,10 +49,11 @@
       //Parse the response to json. This works because we know the server always
       //sends back json. Await because .json() is an async function.
       const obj = await response.json();
-
+      // https://www.w3schools.com/jsref/jsref_object_values.asp
+     content.innerHTML += `<p>Content length: ${Object.values(obj)[0].length}</p>`;
       //If we have a message, display it.
       if(obj.books){
-     content.innerHTML += `<p>Content length: ${obj.books.length}</p>`;//may change this
+
         //let jsonString = JSON.stringify(obj.books); 
        // content.innerHTML += `<p>${jsonString}</p>`;
 
@@ -71,7 +72,7 @@
       }//end if obj.books (plural)
 
 
-      //for a single book
+      //for a randomBook
       if(obj.book){
                   //const book =  obj.books[i];
                   const book =  obj.book;
@@ -136,6 +137,7 @@
         //.trim w3Schools https://www.w3schools.com/jsref/jsref_trim_string.asp
         const author = form.querySelector('#authorField').value.trim();
         const year = form.querySelector('#yearField').value.trim();
+        const title = form.querySelector('#titleField').value.trim();
        //check if not only head
         if(method === 'get'){
           //temporary variable for combining authour and year arrays
@@ -152,6 +154,12 @@
           //this line here was gotten with the help of w3Schools
           // apparently encodeUri helps with like... spaces or something
             params.push(`year=${encodeURIComponent(year)}`);
+          }
+          if (title != "") {
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`title=${encodeURIComponent(title)}`);
           }
 
           if (params.length > 0 ) {
@@ -226,6 +234,8 @@ window.onload = init;
 
 <body>
   <section id="top">
+    
+    
     <h3>Test /api/books</h3>
 
     <form id="bookForm" action="/api/books" method="get">
@@ -237,17 +247,77 @@ window.onload = init;
       </select>
 <br>
 
+<a>title:</a>
+<input id="titleField" type="text" name="title"></input> 
+<br>
  <a>Author:</a>
 <input id="authorField" type="text" name="author"></input> 
 <br>
 <a>Year:</a>
 <input id="yearField" type="text" name="year"></input> 
 <br>
+<input type="submit" value="getBooks" />
+</form>
+
+<hr>
+
+<!---->
+    <form id="addBookForm" action="/api/books/add" method="get">
+      <!--toggle for GET and HEAD-->
+      <a>Method Select:</a>
+      <select id="methodSelect" name="methodSelect">
+        <option value="get">GET</option>
+         <option value="head">HEAD</option>
+      </select>
+<br>
+
+<h3>Add a Book</h3>
+<a>title:</a>
+<input id="addTitle" type="text" name="title"></input> 
+<br>
+ <a>Author:</a>
+<input id="addAuthor" type="text" name="author"></input> 
+<br>
+<a>Year:</a>
+<input id="addYear" type="text" name="year"></input> 
+<br>
+<input type="submit" value="Add Book " />
+</form>
+
+<hr>
+
+<!---->
+    <form id="updateBookForm" action="/api/books/update" method="get">
+      <!--toggle for GET and HEAD-->
+      <a>Method Select:</a>
+      <select id="methodSelect" name="methodSelect">
+        <option value="get">GET</option>
+         <option value="head">HEAD</option>
+      </select>
+<br>
+
+<h3>update a book </h3>
+<a>title:</a>
+<input id="updateTitle" type="text" name="title"></input> 
+<br>
+ <a>Author:</a>
+<input id="updateAuthor" type="text" name="author"></input> 
+<br>
+<a>Year:</a>
+<input id="updateYear" type="text" name="year"></input> 
+<br>
+<input type="submit" value="update Book " />
+</form>
+
+<hr>
 
 
-      <input type="submit" value="Load All Books" />
 
-    </form>
+<!---->
+
+
+
+
   </section>
 
   <section id="content">

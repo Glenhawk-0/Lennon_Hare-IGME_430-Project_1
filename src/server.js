@@ -17,7 +17,19 @@ const urlStruct = {
   '/docs.html': htmlHandler.getDocs,
   '/api/books': jsonHandler.getBooks,
   '/api/books/random': jsonHandler.getRandomBook,
-  // ...
+  '/api/books/titles': jsonHandler.getBookTitles,
+  '/api/books/pages': jsonHandler.getBookLength,
+  '/api/books/all': jsonHandler.getAllBooks,
+  //-- add ones are different
+  //
+  //i have no idea how to add these ones yet.. im sorry 
+  // aparently it need some kind of parse body thinng and i have no idea
+  //what that is and im not gonna just copy paste AI
+  // im going to just have place holder things for now. 
+  '/api/books/add' :  jsonHandler.getNewBook ,
+
+  '/api/books/update' : jsonHandler.getUpdateBook,
+  //--
   notFound: jsonHandler.getNotFound, // default
 };
 
