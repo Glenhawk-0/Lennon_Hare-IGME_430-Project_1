@@ -31,274 +31,228 @@ const respondJSON = (request, response, status, object) => {
   response.end();
 };// end of respondJSON
 
-//endpoint, get book by author, title and year. show info
+// endpoint, get book by author, title and year. show info
 const getBooks = (request, response) => {
-  //somehow make this a varible thingy
+  // somehow make this a varible thingy
   let filteredBooks = books;
 
-  //check if it wants the author
-  //.query functionality found on Developer.mozilla, a life saver
-//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
-  if (request.query.author) { 
-    const authorSearch = request.query.author.toLowerCase(); 
+  // check if it wants the author
+  // .query functionality found on Developer.mozilla, a life saver
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
+  if (request.query.author) {
+    const authorSearch = request.query.author.toLowerCase();
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
-    
-      //if(filteredBooks[i].author.toLowerCase() === authorSearch.toLowerCase()){
-      if(filteredBooks[i].author.toLowerCase().includes(authorSearch)){
-        //https://www.w3schools.com/jsref/jsref_includes.asp
+      // if(filteredBooks[i].author.toLowerCase() === authorSearch.toLowerCase()){
+      if (filteredBooks[i].author.toLowerCase().includes(authorSearch)) {
+        // https://www.w3schools.com/jsref/jsref_includes.asp
         results.push(filteredBooks[i]);
       }
-
-    }//end for loop
+    }// end for loop
 
     filteredBooks = results;
-  }//end request author
+  }// end request author
 
-
-    //check if it wants the title
-  //.query functionality found on Developer.mozilla, a life saver
-//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
-  if (request.query.title) { 
-    const titleSearch = request.query.title.toLowerCase(); 
+  // check if it wants the title
+  // .query functionality found on Developer.mozilla, a life saver
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
+  if (request.query.title) {
+    const titleSearch = request.query.title.toLowerCase();
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
-    
-      //if(filteredBooks[i].title.toLowerCase() === titleSearch.toLowerCase()){
-      if(filteredBooks[i].title.toLowerCase().includes(titleSearch)){//
+      // if(filteredBooks[i].title.toLowerCase() === titleSearch.toLowerCase()){
+      if (filteredBooks[i].title.toLowerCase().includes(titleSearch)) { //
         // partial search. w3Schools https://www.w3schools.com/jsref/jsref_includes.asp
         results.push(filteredBooks[i]);
       }
-
-    }//end for loop
+    }// end for loop
 
     filteredBooks = results;
-  }//end request title
-  
+  }// end request title
 
-
-  //check if it wants the year
-  if (request.query.year) { 
-    const yearSearch = request.query.year ;
+  // check if it wants the year
+  if (request.query.year) {
+    const yearSearch = request.query.year;
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
-    //took way too long to fix, this has to be string
-      if(`${filteredBooks[i].year}` === `${yearSearch}`){
+    // took way too long to fix, this has to be string
+      if (`${filteredBooks[i].year}` === `${yearSearch}`) {
         results.push(filteredBooks[i]);
       }
-
-      
-
-    }//end for loop
+    }// end for loop
 
     filteredBooks = results;
-  }//end request year
+  }// end request year
 
-  
   const responseJSON = {
     books: filteredBooks,
   };
   respondJSON(request, response, 200, responseJSON);
-};//end of getBooks
+};// end of getBooks
 
-
-//endpoint, get book by author and year. show title 
+// endpoint, get book by author and year. show title
 const getBookTitles = (request, response) => {
-  //somehow make this a varible thingy
+  // somehow make this a varible thingy
   let filteredBooks = books;
 
-  //check if it wants the author
-  //.query functionality found on Developer.mozilla, a life saver
-//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
-  if (request.query.author) { 
-    const authorSearch = request.query.author.toLowerCase(); // was causing problems without the to lowercase. 
+  // check if it wants the author
+  // .query functionality found on Developer.mozilla, a life saver
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/search/query
+  if (request.query.author) {
+    const authorSearch = request.query.author.toLowerCase();
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
-    
-      //if(filteredBooks[i].author.toLowerCase() === authorSearch.toLowerCase()){
-      if(filteredBooks[i].author.toLowerCase().includes(authorSearch)){//using includes for partial search. w3Schools
-        //https://www.w3schools.com/jsref/jsref_includes.asp
+      // if(filteredBooks[i].author.toLowerCase() === authorSearch.toLowerCase()){
+      if (filteredBooks[i].author.toLowerCase().includes(authorSearch)) {
+        // https://www.w3schools.com/jsref/jsref_includes.asp
         results.push(filteredBooks[i]);
       }
-
-    }//end for loop
+    }// end for loop
 
     filteredBooks = results;
-  }//end request author
-  
+  }// end request author
 
-
-  //check if it wants the year
-  if (request.query.year) { 
-    const yearSearch = request.query.year ;
+  // check if it wants the year
+  if (request.query.year) {
+    const yearSearch = request.query.year;
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
-    //took way too long to fix, this has to be string
-      if(`${filteredBooks[i].year}` === `${yearSearch}`){
+    // took way too long to fix, this has to be string
+      if (`${filteredBooks[i].year}` === `${yearSearch}`) {
         results.push(filteredBooks[i]);
       }
-
-    }//end for loop
+    }// end for loop
 
     filteredBooks = results;
-  }//end request year
+  }// end request year
 
-
-  
-
-  
-  
   const responseJSON = {
     bookTitles: filteredBooks,
   };
   respondJSON(request, response, 200, responseJSON);
-};//end of getBooks
+};// end of getBooks
 
-//endpoint, get book by page minimum and maximum length. show title and page count 
+// endpoint, get book by page minimum and maximum length. show title and page count
 const getBookLength = (request, response) => {
-  //somehow make this a varible thingy
+  // somehow make this a varible thingy
   let filteredBooks = books;
 
-  
-/// change this whole thing so that it acepts
-//  a minimum and maximum number of pages and searches between 
+  /// change this whole thing so that it acepts
+  //  a minimum and maximum number of pages and searches between
 
-  //check if it wants the year
-  if (request.query.pages) { 
-    const pageSearch = request.query.pages ;
+  // check if it wants the year
+  if (request.query.pages) {
+    const pageSearch = request.query.pages;
     const results = [];
 
     for (let i = 0; i < filteredBooks.length; i++) {
-    //took way too long to fix, this has to be string
-      if(`${filteredBooks[i].pages}` === `${pageSearch}`){
+    // took way too long to fix, this has to be string
+      if (`${filteredBooks[i].pages}` === `${pageSearch}`) {
         results.push(filteredBooks[i]);
       }
-
-    }//end for loop
+    }// end for loop
 
     filteredBooks = results;
-  }//end request year
+  }// end request year
 
-
-  
-
-  
-  
   const responseJSON = {
     bookPages: filteredBooks,
   };
   respondJSON(request, response, 200, responseJSON);
-};//end of getBooks
+};// end of getBooks
 
-
-//endpoint, get All books. show all book titles
+// endpoint, get All books. show all book titles
 const getAllBooks = (request, response) => {
-  
   const responseJSON = {
     allBooks: books,
   };
   respondJSON(request, response, 200, responseJSON);
-};//end of getBooks
+};// end of getBooks
 
-
-//endpoint, this one will return a random book
+// endpoint, this one will return a random book
 const getRandomBook = (request, response) => {
-//gotten from w3Schools https://www.w3schools.com/js/js_random.asp
+// gotten from w3Schools https://www.w3schools.com/js/js_random.asp
   const randomNumber = Math.floor(Math.random() * books.length);
-  
-    const responseJSON = {
+
+  const responseJSON = {
 
     book: books[randomNumber],
   };
   respondJSON(request, response, 200, responseJSON);
-
 };// end of getRandomBook
 
-
-//endpoint: this will add A book 
-//was heavily suggested to use this body component by an ai
-const getNewBook = (request,response, body) =>{
-
-
+// endpoint: this will add A book
+// was heavily suggested to use this body component by an ai
+const getNewBook = (request, response, body) => {
   let responseJSON = {};
 
-  // if missing stuff then error it . 
+  // if missing stuff then error it .
   if (!body.title || !body.author || !body.year) {
-     responseJSON = {
-       message: "Missing title, author, or year.", 
-      id: "missingParams"
-     };
-    return respondJSON(request, response, 400, responseJSON);// 
+    responseJSON = {
+      message: 'Missing title, author, or year.',
+      id: 'missingParams',
+    };
+    return respondJSON(request, response, 400, responseJSON);//
   }
 
   const newBook = {
     title: body.title,
     author: body.author,
-    year: `${(body.year)}`, //ugh
+    year: `${(body.year)}`, // ugh
   };
 
   books.push(newBook);
-  responseJSON = { 
-    message: "Book added!", 
-    book: newBook
-   }
-  return respondJSON(request, response, 201, responseJSON );
+  responseJSON = {
+    message: 'Book added!',
+    book: newBook,
+  };
+  return respondJSON(request, response, 201, responseJSON);
+};// end getNewBook
 
-};//end getNewBook 
-
-//endpoint: this will update a book's title or yar
-//was heavily suggested to use this body component by an ai
-const getUpdateBook = (request , response, body) => {
-
+// endpoint: this will update a book's title or yar
+// was heavily suggested to use this body component by an ai
+const getUpdateBook = (request, response, body) => {
   // i needed the assistance of AI to figure out how to structure this for finding books
-// i apologize
-const searchTitle = body.title.toLowerCase();
-// .find https://www.w3schools.com/jsref/jsref_find.asp
-const book = books.find((b) => {
-  
-  return b.title.toLowerCase() === searchTitle;// checks if true
-});
-/// ^^^^ AI struture end  
+  // i apologize
+  const searchTitle = body.title.toLowerCase();
+  // .find https://www.w3schools.com/jsref/jsref_find.asp
+  const book = books.find((b) => b.title.toLowerCase() === searchTitle); // checks if true
 
-// parameters werent given and dont exist
+  /// ^^^^ AI struture end
+
+  // parameters werent given and dont exist
   if (!body.title || !body.year) {
-     const responseJSON = { 
-      message: "Missing title or year.", 
-      id: "missingParams" 
+    const responseJSON = {
+      message: 'Missing title or year.',
+      id: 'missingParams',
     };
-    return respondJSON(request, response, 400, responseJSON);//end this is errored
+    return respondJSON(request, response, 400, responseJSON);// end this is errored
   }
 
-//book wasnt found
+  // book wasnt found
   if (!book) {
-    const responseJSON = { 
-      message: "Book not found.", 
-      id: "notFound"
-     };
-     // 404 means not found
-    return respondJSON(request, response, 404, responseJSON );
+    const responseJSON = {
+      message: 'Book not found.',
+      id: 'notFound',
+    };
+    // 404 means not found
+    return respondJSON(request, response, 404, responseJSON);
   }
 
-
-  
- 
   if (body.author) book.author = body.author;
-  if (body.year)   book.year = body.year;
+  if (body.year) book.year = body.year;
 
-
-
- const  responseJSON = {
-  message: 'Book updated succesfully.' ,
-  book };
-  return respondJSON(request, response, 200, responseJSON); 
-};//end of getUpdateBook  // unfinished
-
-
+  const responseJSON = {
+    message: 'Book updated succesfully.',
+    book,
+  };
+  return respondJSON(request, response, 200, responseJSON);
+};// end of getUpdateBook  // unfinished
 
 // endpoint: this will return not found
 const getNotFound = (request, response) => {
@@ -307,8 +261,7 @@ const getNotFound = (request, response) => {
     id: 'notFound',
   };
   respondJSON(request, response, 404, responseJSON);
-};//end of getNotFound // unfinished
-
+};// end of getNotFound // unfinished
 
 module.exports = {
   getBooks,

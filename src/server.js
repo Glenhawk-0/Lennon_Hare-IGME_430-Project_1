@@ -20,15 +20,15 @@ const urlStruct = {
   '/api/books/titles': jsonHandler.getBookTitles,
   '/api/books/pages': jsonHandler.getBookLength,
   '/api/books/all': jsonHandler.getAllBooks,
-  //-- add ones are different
+  // -- add ones are different
   //
-  //i have no idea how to add these ones yet.. im sorry 
+  // i have no idea how to add these ones yet.. im sorry
   // aparently it need some kind of parse body thinng and i have no idea
-  //what that is and im not gonna just copy paste AI
-  // im going to just have place holder things for now. 
-  '/api/books/add' :  jsonHandler.getNewBook ,
+  // what that is and im not gonna just copy paste AI
+  // im going to just have place holder things for now.
+  '/api/books/add': jsonHandler.getNewBook,
 
-  '/api/books/update' : jsonHandler.getUpdateBook,
+  '/api/books/update': jsonHandler.getUpdateBook,
   //--
   notFound: jsonHandler.getNotFound, // default
 };
@@ -67,7 +67,6 @@ const onRequest = (request, response) => {
 // start HTTP server
 http.createServer(onRequest).listen(port, () => {
   console.log(`Listening on 127.0.0.1:${port}`);
- 
 });
 
 /// //
