@@ -39,6 +39,7 @@
           break;
       }
       content.innerHTML += `<a>:${response.status}</a>`;
+      content.innerHTML += `<a>\n Content-Length: ${response.headers.get('Content-Length')}</a>`;
  
 
       //If we should parse a response (meaning we made a get request)
@@ -51,6 +52,7 @@
       const obj = await response.json();
       // https://www.w3schools.com/jsref/jsref_object_values.asp
      content.innerHTML += `<p>Content length: ${Object.values(obj)[0].length}</p>`;
+     // `\n Content-Length: response.headers.get(Content-Length')}`;
       //If we have a message, display it.
       if(obj.books){
 
