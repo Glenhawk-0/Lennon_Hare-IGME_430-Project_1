@@ -128,7 +128,7 @@
 
       //Grab the url and method from the html form below
       // const url = form.querySelector('#action').value;// this would need an id...
-      const method = form.querySelector('method').toLowerCase();
+      const method = form.getAttribute('method').toLowerCase();
         const url = form.getAttribute('action');
 
         //const method = form.getAttribute('method');
@@ -140,12 +140,33 @@
             headers: { 'Accept': 'application/json'}
         }
         //Grab the url and method from the html form below
+
+        /*
         //.trim i had ai look the thing over and it was all like 
         // WOAhhh yyoyuuu need TRIM. so i looked it up and well... yeah sure
         //.trim w3Schools https://www.w3schools.com/jsref/jsref_trim_string.asp
         const author = form.querySelector('#authorField').value.trim();
         const year = form.querySelector('#yearField').value.trim();
-        const title = form.querySelector('#titleField').value.trim();
+        const title = form.querySelector('#titleField').value.trim();*/
+
+        let title = '';
+        let author = '';
+        let year = '';
+
+        if (form.id === 'bookForm') {
+        title = document.querySelector('#titleField').value.trim();
+         author = document.querySelector('#authorField').value.trim();
+         year = document.querySelector('#yearField').value.trim();
+        } else if (form.id === 'addBookForm') {
+         title = document.querySelector('#addTitle').value.trim();
+        author = document.querySelector('#addAuthor').value.trim();
+        year = document.querySelector('#addYear').value.trim();
+        } else if (form.id === 'updateBookForm') {
+          title = document.querySelector('#updateTitle').value.trim();
+          author = document.querySelector('#updateAuthor').value.trim();
+         year = document.querySelector('#updateYear').value.trim();
+        }          
+
        
 
        
