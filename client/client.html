@@ -121,18 +121,24 @@
       handleResponse(response);
     };
 */
-
+        // going to add funtionatlity to work with both get and post
         const requestBooks = async (form) => {
       
+
+
       //Grab the url and method from the html form below
       // const url = form.querySelector('#action').value;// this would need an id...
-      const method = form.querySelector('#methodSelect').value;
+      const method = form.querySelector('method').toLowerCase();
         const url = form.getAttribute('action');
 
         //const method = form.getAttribute('method');
       
         //inbetween step for the users stuff
         let finalUrl = url;
+        let fetchOptions = {
+            method,
+            headers: { 'Accept': 'application/json'}
+        }
         //Grab the url and method from the html form below
         //.trim i had ai look the thing over and it was all like 
         // WOAhhh yyoyuuu need TRIM. so i looked it up and well... yeah sure
@@ -140,8 +146,14 @@
         const author = form.querySelector('#authorField').value.trim();
         const year = form.querySelector('#yearField').value.trim();
         const title = form.querySelector('#titleField').value.trim();
-       //check if not only head
-        if(method === 'get'){
+       
+
+       
+       
+       
+       
+        //check if not only head
+        if(method === 'get' ){
           //temporary variable for combining authour and year arrays
           //https://www.w3schools.com/jsref/jsref_join.asp
           let params = [];
@@ -171,21 +183,18 @@
 
         }// end of method === get
        
-       /*
-        if (author == true && method === 'get') {
-          //this line here was gotten with the help of w3Schools
-          // apparently encodeUri helps with like... spaces or something
-          finalUrl += `?author=${encodeURIComponent(author)}`;
-        }*/
+
+        // for post, structure from AI 
+        if (method === 'post'){
+        const formData = `title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}&year=${encodeURIComponent(year)}`;
+        fetchOptions.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        fetchOptions.body = formData;
+        }// end of method === post | End Structure from AI
         
 
       //Await our fetch response. Go to the URL, use the right method, and attach the headers.
-      let response = await fetch(finalUrl, {
-        method,
-        headers: {
-            'Accept': 'application/json'
-        },
-      });
+      let response = await fetch(finalUrl, fetchOptions)
+
 
       //Once we have our response, send it into handle response. The second parameter is a boolean
       //that says if we should parse the response or not. We will get a response to parse on get
@@ -203,6 +212,8 @@
       //const userForm = document.querySelector('#userForm');
 
         const bookForm = document.querySelector('#bookForm');
+        const addBookForm = document.querySelector('#addBookForm');
+        const updateBookForm = document.querySelector('#updateBookForm');
       /*
       //Create an addUser function that cancels the forms default action and
       //calls our sendPost function above.
@@ -225,6 +236,18 @@
         return false;
       });
 
+      addBookForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      requestBooks(addBookForm);
+      return false;
+      });
+
+        updateBookForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        requestBooks(updateBookForm);
+        return false;
+});
+
 
     };
 
@@ -243,7 +266,7 @@ window.onload = init;
     <form id="bookForm" action="/api/books" method="get">
       <!--toggle for GET and HEAD-->
       <a>Method Select:</a>
-      <select id="methodSelect" name="methodSelect">
+      <select id="bookMethodSelect" name="methodSelect">
         <option value="get">GET</option>
          <option value="head">HEAD</option>
       </select>
@@ -264,10 +287,10 @@ window.onload = init;
 <hr>
 
 <!---->
-    <form id="addBookForm" action="/api/books/add" method="get">
+    <form id="addBookForm" action="/api/books/add" method="post">
       <!--toggle for GET and HEAD-->
       <a>Method Select:</a>
-      <select id="methodSelect" name="methodSelect">
+      <select id="addMethodSelect" name="methodSelect">
         <option value="get">GET</option>
          <option value="head">HEAD</option>
       </select>
@@ -289,10 +312,10 @@ window.onload = init;
 <hr>
 
 <!---->
-    <form id="updateBookForm" action="/api/books/update" method="get">
+    <form id="updateBookForm" action="/api/books/update" method="post">
       <!--toggle for GET and HEAD-->
       <a>Method Select:</a>
-      <select id="methodSelect" name="methodSelect">
+      <select id="updateMethodSelect" name="methodSelect">
         <option value="get">GET</option>
          <option value="head">HEAD</option>
       </select>
