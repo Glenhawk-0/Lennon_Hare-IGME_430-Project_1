@@ -128,8 +128,18 @@
 
       //Grab the url and method from the html form below
       // const url = form.querySelector('#action').value;// this would need an id...
-      const method = form.getAttribute('method').toLowerCase();
         const url = form.getAttribute('action');
+            //const method = form.getAttribute('method').toLowerCase();
+
+            const methodSelect = document.querySelector('#bookMethodSelect');
+            // Create a variable for the method (like 'get' or 'head')
+          let method = '';
+if (methodSelect) {
+  method = methodSelect.value.toLowerCase();
+} 
+else {
+  method = form.getAttribute('method').toLowerCase();
+}
 
         //const method = form.getAttribute('method');
       
@@ -309,12 +319,7 @@ window.onload = init;
 
 <!---->
     <form id="addBookForm" action="/api/books/add" method="post">
-      <!--toggle for GET and HEAD-->
-      <a>Method Select:</a>
-      <select id="addMethodSelect" name="methodSelect">
-        <option value="get">GET</option>
-         <option value="head">HEAD</option>
-      </select>
+
 <br>
 
 <h3>Add a Book</h3>
@@ -334,12 +339,7 @@ window.onload = init;
 
 <!---->
     <form id="updateBookForm" action="/api/books/update" method="post">
-      <!--toggle for GET and HEAD-->
-      <a>Method Select:</a>
-      <select id="updateMethodSelect" name="methodSelect">
-        <option value="get">GET</option>
-         <option value="head">HEAD</option>
-      </select>
+
 <br>
 
 <h3>update a book </h3>

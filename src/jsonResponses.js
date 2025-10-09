@@ -188,7 +188,10 @@ const getRandomBook = (request, response) => {
 
 // endpoint: this will add A book
 // was heavily suggested to use this body component by an ai
-const getNewBook = (request, response, body) => {
+const getNewBook = (request, response) => {
+
+  const body = request.body;
+
   let responseJSON = {};
 
   // if missing stuff then error it .
@@ -216,9 +219,12 @@ const getNewBook = (request, response, body) => {
 
 // endpoint: this will update a book's title or yar
 // was heavily suggested to use this body component by an ai
-const getUpdateBook = (request, response, body) => {
+const getUpdateBook = (request, response) => {
   // i needed the assistance of AI to figure out how to structure this for finding books
   // i apologize
+
+  const body = request.body;
+
   const searchTitle = body.title.toLowerCase();
   // .find https://www.w3schools.com/jsref/jsref_find.asp
   const book = books.find((b) => b.title.toLowerCase() === searchTitle); // checks if true

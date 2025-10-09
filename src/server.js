@@ -10,8 +10,7 @@ const jsonHandler = require('./jsonResponses.js');
 // set the port. process.env.PORT and NODE_PORT are for servers like heroku
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-
-//parseBody
+// parseBody
 const parseBody = (request, response, handler) => {
   // The request will come in in pieces. We will store those pieces in this
   // body array.
@@ -46,11 +45,11 @@ const parseBody = (request, response, handler) => {
 
     // Once we have the bodyParams object, we will call the handler function. We then
     // proceed much like we would with a GET request.
+
+    console.log('Parsed body:', request.body);
     handler(request, response);
   });
 };
-
-
 
 // key:value object to look up URL routes to specific functions
 const urlStruct = {
@@ -69,12 +68,13 @@ const urlStruct = {
   // what that is and im not gonna just copy paste AI
   // im going to just have place holder things for now.
 
-    '/api/books/add': (request, response) => { 
+  '/api/books/add': (request, response) => {
     parseBody(request, response, jsonHandler.getNewBook);
-    },
-    '/api/books/update': (request, response) => {
+  },
+
+  '/api/books/update': (request, response) => {
     parseBody(request, response, jsonHandler.getUpdateBook);
-    },
+  },
   //--
   notFound: jsonHandler.getNotFound, // default
 };
