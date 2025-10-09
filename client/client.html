@@ -134,7 +134,7 @@
             const methodSelect = document.querySelector('#bookMethodSelect');
             // Create a variable for the method (like 'get' or 'head')
           let method = '';
-if (methodSelect) {
+if (methodSelect &&  form.id !== 'addBookForm' && form.id !== 'updateBookForm') {
   method = methodSelect.value.toLowerCase();
 } 
 else {
@@ -222,7 +222,7 @@ else {
         fetchOptions.body = formData;
         }// end of method === post | End Structure from AI
         
-
+        console.log('Sending request:', finalUrl, fetchOptions);
       //Await our fetch response. Go to the URL, use the right method, and attach the headers.
       let response = await fetch(finalUrl, fetchOptions)
 
@@ -231,6 +231,7 @@ else {
       //that says if we should parse the response or not. We will get a response to parse on get
       //requests so we can do an inline boolean check, which will return a true or false to pass in.
       handleResponse(response, method === 'get');
+      
     };
 
 
