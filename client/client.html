@@ -129,17 +129,15 @@
       //Grab the url and method from the html form below
       // const url = form.querySelector('#action').value;// this would need an id...
         const url = form.getAttribute('action');
-            //const method = form.getAttribute('method').toLowerCase();
+            let method = form.getAttribute('method').toLowerCase();
 
+            if (form.id !== 'addBookForm' && form.id !== 'updateBookForm'){
             const methodSelect = document.querySelector('#bookMethodSelect');
             // Create a variable for the method (like 'get' or 'head')
-          let method = '';
-if (methodSelect &&  form.id !== 'addBookForm' && form.id !== 'updateBookForm') {
+if (methodSelect ) {
   method = methodSelect.value.toLowerCase();
 } 
-else {
-  method = form.getAttribute('method').toLowerCase();
-}
+            }
 
         //const method = form.getAttribute('method');
       
