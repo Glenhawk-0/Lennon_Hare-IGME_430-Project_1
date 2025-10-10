@@ -142,26 +142,57 @@ const getBookLength = (request, response) => {
   // somehow make this a varible thingy
   let filteredBooks = books;
 
+
+//https://www.w3schools.com/jsref/jsref_parseint.asp
+// parse int
+  const minPages = parseInt(request.query.min, 10);
+  const maxPages = parseInt(request.query.max, 10);
+
   /// change this whole thing so that it acepts
   //  a minimum and maximum number of pages and searches between
 
-  // check if it wants the year
-  if (request.query.pages) {
-    const pageSearch = request.query.pages;
-    const results = [];
+  //https://www.w3schools.com/jsref/jsref_isnan.asp
+  //is NaN
+  if (isNaN(minPages) && isNaN(maxPages)) {
+    const responseJSON = {
+      message: 'Please provide at least a minimum or maximum page number.',
+      id: 'missingParams',
+    };
+    return respondJSON(request, response, 400, responseJSON);
+  }
 
-    for (let i = 0; i < filteredBooks.length; i++) {
-    // took way too long to fix, this has to be string
-      if (`${filteredBooks[i].pages}` === `${pageSearch}`) {
+  const results = [];
+
+  for (let i = 0; i < filteredBooks.length; i++) {
+    const pages = filteredBooks[i].pages;
+
+ // typeof https://www.w3schools.com/js/js_typeof.asp
+    if (typeof pages === 'number') {
+
+    // if both exist
+    if (!isNaN(minPages) && !isNaN(maxPages)) {
+      if (pages >= minPages && pages <= maxPages) {
         results.push(filteredBooks[i]);
       }
-    }// end for loop
-
-    filteredBooks = results;
-  }// end request year
+    }
+    // if only min
+    else if (!isNaN(minPages)) {
+    if (pages >= minPages) {
+       
+ results.push(filteredBooks[i]);
+      }
+    }
+    // if only max 
+    else if (!isNaN(maxPages)) {
+if (pages <= maxPages) {
+         results.push(filteredBooks[i]);
+      }
+    }
+  }
+  }//end of checking all that
 
   const responseJSON = {
-    bookPages: filteredBooks,
+    bookPages: results,
   };
   respondJSON(request, response, 200, responseJSON);
 };// end of getBooks
