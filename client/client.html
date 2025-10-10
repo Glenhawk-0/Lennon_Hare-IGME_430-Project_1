@@ -45,13 +45,13 @@
       //If we should parse a response (meaning we made a get request)
       //shouldnt be a head request
 
-      //if(parseResponse && response.status !== 204) {//// keep this in mind
-      if(parseResponse && response.status === 200) {//// keep this in mind
+      if(parseResponse && response.status !== 204) {//// keep this in mind
+      //if(parseResponse && response.status === 200) {//// keep this in mind
       //Parse the response to json. This works because we know the server always
       //sends back json. Await because .json() is an async function.
       const obj = await response.json();
       // https://www.w3schools.com/jsref/jsref_object_values.asp
-     content.innerHTML += `<p>Content length: ${Object.values(obj)[0].length}</p>`;
+     //content.innerHTML += `<p>Content length: ${Object.values(obj)[0].length}</p>`;
      // `\n Content-Length: response.headers.get(Content-Length')}`;
       //If we have a message, display it.
       if(obj.books){
@@ -73,6 +73,29 @@
         //content.innerHTML += `<p>${obj.book}</p>`;
       }//end if obj.books (plural)
 
+      //for booktitles
+      if (obj.bookTitles){
+       for(let i = 0 ; i < obj.bookTitles.length ; i++){
+            const book =  obj.bookTitles[i];
+            content.innerHTML += `<p>${book.title}</p>`
+       }
+    }
+
+          //for booktitles
+      if (obj.bookPages){
+       for(let i = 0 ; i < obj.bookPages.length ; i++){
+            const book =  obj.bookPages[i];
+            content.innerHTML += `<p>${book.title}, Pages: ${book.pages}</p>`
+       }
+    }
+
+              //for all Books
+      if (obj.allBooks){
+       for(let i = 0 ; i < obj.allBooks.length ; i++){
+            const book =  obj.allBooks[i];
+            content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
+       }
+    }
 
       //for a randomBook
       if(obj.book){
@@ -160,12 +183,21 @@ if (methodSelect ) {
         let title = '';
         let author = '';
         let year = '';
+        let min = '';
+        let max = '';
 
         if (form.id === 'bookForm') {
         title = document.querySelector('#titleField').value.trim();
          author = document.querySelector('#authorField').value.trim();
          year = document.querySelector('#yearField').value.trim();
-        } else if (form.id === 'addBookForm') {
+         
+        }else if (form.id === 'bookTitlesForm') {
+        author = document.querySelector('#titlesAuthor').value.trim();
+        year = document.querySelector('#titlesYear').value.trim(); 
+        }else if (form.id === 'bookPagesForm') {
+         min = document.querySelector('#minPages').value.trim();
+        max = document.querySelector('#maxPages').value.trim();
+        }else if (form.id === 'addBookForm') {
          title = document.querySelector('#addTitle').value.trim();
         author = document.querySelector('#addAuthor').value.trim();
         year = document.querySelector('#addYear').value.trim();
@@ -186,24 +218,31 @@ if (methodSelect ) {
           //temporary variable for combining authour and year arrays
           //https://www.w3schools.com/jsref/jsref_join.asp
           let params = [];
-          if (author != "") {
+          if (author) { if (author != ""){ 
           //dont add question mark yet
           //this line here was gotten with the help of w3Schools
           // apparently encodeUri helps with like... spaces or something
-            params.push(`author=${encodeURIComponent(author)}`);
-          }
-          if (year != "") {
+            params.push(`author=${encodeURIComponent(author)}`);} }
+          if (year) { if (year != ""){ 
           //dont add question mark yet
           //this line here was gotten with the help of w3Schools
           // apparently encodeUri helps with like... spaces or something
-            params.push(`year=${encodeURIComponent(year)}`);
-          }
-          if (title != "") {
+            params.push(`year=${encodeURIComponent(year)}`); } }
+          if (title) { if (title != ""){ 
           //dont add question mark yet
           //this line here was gotten with the help of w3Schools
           // apparently encodeUri helps with like... spaces or something
-            params.push(`title=${encodeURIComponent(title)}`);
-          }
+            params.push(`title=${encodeURIComponent(title)}`); } }
+          if (min) { if (min != ""){ 
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`min=${encodeURIComponent(min)}`); } }
+                      if (max) { if (max != ""){ 
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`max=${encodeURIComponent(max)}`); } }
 
           if (params.length > 0 ) {
             //.join w3schools https://www.w3schools.com/jsref/jsref_join.asp
@@ -240,8 +279,13 @@ if (methodSelect ) {
       
      // const nameForm = document.querySelector('#nameForm');
       //const userForm = document.querySelector('#userForm');
+      
 
         const bookForm = document.querySelector('#bookForm');
+        const bookTitlesForm = document.querySelector('#bookTitlesForm');
+const bookPagesForm = document.querySelector('#bookPagesForm');
+const allBooksForm = document.querySelector('#allBooksForm');
+const randomBookForm = document.querySelector('#randomBookForm');
         const addBookForm = document.querySelector('#addBookForm');
         const updateBookForm = document.querySelector('#updateBookForm');
       /*
@@ -265,6 +309,30 @@ if (methodSelect ) {
        // requestUpdate(userForm);
         return false;
       });
+
+      bookTitlesForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        requestBooks(bookTitlesForm);
+         return false;
+        });
+
+        bookPagesForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        requestBooks(bookPagesForm);
+         return false;
+        });
+
+        allBooksForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+     requestBooks(allBooksForm);
+         return false;
+            });
+
+        randomBookForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+          requestBooks(randomBookForm);
+          return false;
+        });
 
       addBookForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -291,7 +359,7 @@ window.onload = init;
   <section id="top">
     
     
-    <h3>Test /api/books</h3>
+    <h3>Search Books|/api/books</h3>
 
     <form id="bookForm" action="/api/books" method="get">
       <!--toggle for GET and HEAD-->
@@ -302,7 +370,7 @@ window.onload = init;
       </select>
 <br>
 
-<a>title:</a>
+<a>Title:</a>
 <input id="titleField" type="text" name="title"></input> 
 <br>
  <a>Author:</a>
@@ -317,6 +385,56 @@ window.onload = init;
 <hr>
 
 <!---->
+
+    <h3>Book Titles|/api/books/titles</h3>
+    <form id="bookTitlesForm" action="/api/books/titles" method="get">
+ <a>Author:</a>
+<input id="titlesAuthor" type="text" name="author"></input> 
+<br>
+<a>Year:</a>
+<input id="titlesYear" type="text" name="year"></input> 
+<br>
+<input type="submit" value="Get Titles" />
+</form>
+
+<hr>
+
+<!---->
+
+    <h3>Books by Page Count|/api/books/pages</h3>
+    <form id="bookPagesForm" action="/api/books/pages" method="get">
+ <a>Min Pages:</a>
+<input id="minPages" type="number" name="min"></input> 
+<br>
+<a>Max Pages:</a>
+<input id="maxPages" type="number" name="max"></input> 
+<br>
+<input type="submit" value="Filter by Pages" />
+</form>
+
+<hr>
+
+<!---->
+
+    <h3>All Books|/api/books/all</h3>
+    <form id="allBooksForm" action="/api/books/all" method="get">
+<input type="submit" value="Get All Books" />
+</form>
+
+<hr>
+
+<!---->
+
+    <h3>Random Book|/api/books/random</h3>
+    <form id="randomBookForm" action="/api/books/random" method="get">
+<input type="submit" value="Get Random Book" />
+</form>
+
+<hr>
+
+<!---->
+
+
     <form id="addBookForm" action="/api/books/add" method="post">
 
 <br>
