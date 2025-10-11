@@ -1,17 +1,536 @@
-Much of the code used in this project was gotten from my professor Willoughby, Austin.
-then alot of chunks of code and certain functions were gotte from w3schools
-i then also used AI to look over my code to find bugs and such and to also push me along in the right direction without just copying and pasting code. 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>IGME_430 Project 1</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <!--
+  <script>
 
-endpoint 1: '/api/books':        jsonHandler.getBooks,   
-endpoint 2: '/api/books/random': jsonHandler.getRandomBook,
-endpoint 3: '/api/books/titles': jsonHandler.getBookTitles,
-endpoint 4: '/api/books/pages':  jsonHandler.getBookLength,
-endpoint 5: '/api/books/all':    jsonHandler.getAllBooks,
-endpoint 6: '/api/books/add':    jsonHandler.getNewBook ,
-endpoint 7: '/api/books/update': jsonHandler.getUpdateBook,
+    //Handle Response Code chunk from Willoughby, Austin
+    //Handles our FETCH response. This function is async because it
+    //contains an await.
+   const handleResponse = async (response, parseResponse = true) => {
+      
+      //Grab the content section
+      const content = document.querySelector('#content');
+
+      //gotta clear it out first
+      content.innerHTML = '';
+
+            //Based on the status code, display something
+      switch(response.status) {
+        case 200: //success
+          content.innerHTML = `<b>Success</b>`;
+          break;
+        case 201: //created
+          content.innerHTML = '<b>Created</b>';
+          break;
+        case 204: //updated (no response back from server)
+          content.innerHTML = '<b>Updated (No Content)</b>';
+          return;
+        case 400: //bad request
+          content.innerHTML = `<b>Bad Request</b>`;
+          break;
+          case 404:
+          content.innerHTML = `<b>Resource Not Found</b>`;
+          break;
+        default: //any other status code
+          content.innerHTML = `Error code not implemented by client`;
+          break;
+      }
+      content.innerHTML += `<a>:${response.status}</a>`;
+      content.innerHTML += `<a>\n Content-Length: ${response.headers.get('Content-Length')}</a>`;
+ 
+
+      //If we should parse a response (meaning we made a get request)
+      //shouldnt be a head request
+
+      if(parseResponse && response.status !== 204) {//// keep this in mind
+      //if(parseResponse && response.status === 200) {//// keep this in mind
+      //Parse the response to json. This works because we know the server always
+      //sends back json. Await because .json() is an async function.
+      const obj = await response.json();
+      // https://www.w3schools.com/jsref/jsref_object_values.asp
+     //content.innerHTML += `<p>Content length: ${Object.values(obj)[0].length}</p>`;
+     // `\n Content-Length: response.headers.get(Content-Length')}`;
+      //If we have a message, display it.
+      if(obj.books){
+  content.innerHTML += `<h4>Books Found:</h4>`;
+        //let jsonString = JSON.stringify(obj.books); 
+       // content.innerHTML += `<p>${jsonString}</p>`;
+
+        for(let i = 0 ; i < obj.books.length ; i++){
+            const book =  obj.books[i];
+            content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
+           //make it like a tab for more info or something later. 
+           /* content.innerHTML += `<p>Page#:${book.pages} ,Language:${book.language} , Country:${book.country}</p>`
+           //add this to like the title in a way. 
+            content.innerHTML += `<p>link: ${book.link}</p>`
+//spacer
+            content.innerHTML += `<p>____</p>`*/
+        }
+
+        //content.innerHTML += `<p>${obj.book}</p>`;
+      }//end if obj.books (plural)
+
+      //for booktitles
+      if (obj.bookTitles){
+          content.innerHTML += `<h4>Books Titles Found:</h4>`;
+       for(let i = 0 ; i < obj.bookTitles.length ; i++){
+            const book =  obj.bookTitles[i];
+            content.innerHTML += `<p>${book.title}</p>`
+       }
+    }
+
+          //for bookPages
+      if (obj.bookPages){
+          content.innerHTML += `<h4>Books Pages Found:</h4>`;
+       for(let i = 0 ; i < obj.bookPages.length ; i++){
+            const book =  obj.bookPages[i];
+            content.innerHTML += `<p>${book.title}, Pages: ${book.pages}</p>`
+       }
+    }
+
+              //for all Books
+      if (obj.allBooks){
+          content.innerHTML += `<h4>All Books Found:</h4>`;
+       for(let i = 0 ; i < obj.allBooks.length ; i++){
+            const book =  obj.allBooks[i];
+            content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
+       }
+    }
+
+      //for a randomBook
+      if(obj.book){
+          content.innerHTML += `<h4>Random Book Found:</h4>`;
+                  //const book =  obj.books[i];
+                  const book =  obj.book;
+            content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
+
+      }//end obj.book (singular)
 
 
-what is this endpoint
-what params does it use body or querySelector
-method (getPostHead) 
-whats it return. 
+
+    }//end of parseResponse //
+  };//end of HandleResponse
+
+
+
+
+   //Uses fetch to send a postRequest. Marksed as async because we use await
+    //within it.
+    /*
+    const sendPost = async (nameForm) => {
+      //Grab all the info from the form
+      const url = nameForm.getAttribute('action');
+      const method = nameForm.getAttribute('method');
+      
+      const nameField = nameForm.querySelector('#nameField');
+      const ageField = nameForm.querySelector('#ageField');
+
+      //Build a data string in the FORM-URLENCODED format.
+      const formData = `name=${nameField.value}&age=${ageField.value}`;
+
+      //Make a fetch request and await a response. Set the method to
+      //the one provided by the form (POST). Set the headers. Content-Type
+      //is the type of data we are sending. Accept is the data we would like
+      //in response. Then add our FORM-URLENCODED string as the body of the request.
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+        },
+        body: formData,npm
+      });
+
+      //Once we have a response, handle it.
+      handleResponse(response);
+    };
+*/
+        // going to add funtionatlity to work with both get and post
+        const requestBooks = async (form) => {
+      
+
+
+      //Grab the url and method from the html form below
+      // const url = form.querySelector('#action').value;// this would need an id...
+        const url = form.getAttribute('action');
+            let method = form.getAttribute('method').toLowerCase();
+
+            if (form.id !== 'addBookForm' && form.id !== 'updateBookForm'){
+            const methodSelect = document.querySelector('#bookMethodSelect');
+            // Create a variable for the method (like 'get' or 'head')
+if (methodSelect ) {
+  method = methodSelect.value.toLowerCase();
+} 
+            }
+
+        //const method = form.getAttribute('method');
+      
+        //inbetween step for the unpsers stuff
+        let finalUrl = url;
+        let fetchOptions = {
+            method,
+            headers: { 'Accept': 'application/json'}
+        }
+        //Grab the url and method from the html form below
+
+        /*
+        //.trim i had ai look the thing over and it was all like 
+        // WOAhhh yyoyuuu need TRIM. so i looked it up and well... yeah sure
+        //.trim w3Schools https://www.w3schools.com/jsref/jsref_trim_string.asp
+        const author = form.querySelector('#authorField').value.trim();
+        const year = form.querySelector('#yearField').value.trim();
+        const title = form.querySelector('#titleField').value.trim();*/
+
+        let title = '';
+        let author = '';
+        let year = '';
+        let min = '';
+        let max = '';
+
+        if (form.id === 'bookForm') {
+        title = document.querySelector('#titleField').value.trim();
+         author = document.querySelector('#authorField').value.trim();
+         year = document.querySelector('#yearField').value.trim();
+         
+        }else if (form.id === 'bookTitlesForm') {
+        author = document.querySelector('#titlesAuthor').value.trim();
+        year = document.querySelector('#titlesYear').value.trim(); 
+        }else if (form.id === 'bookPagesForm') {
+         min = document.querySelector('#minPages').value.trim();
+        max = document.querySelector('#maxPages').value.trim();
+        }else if (form.id === 'addBookForm') {
+         title = document.querySelector('#addTitle').value.trim();
+        author = document.querySelector('#addAuthor').value.trim();
+        year = document.querySelector('#addYear').value.trim();
+        } else if (form.id === 'updateBookForm') {
+          title = document.querySelector('#updateTitle').value.trim();
+          author = document.querySelector('#updateAuthor').value.trim();
+         year = document.querySelector('#updateYear').value.trim();
+        }          
+
+       
+
+       
+       
+       
+       
+        //check if not only head
+        if(method === 'get' ){
+          //temporary variable for combining authour and year arrays
+          //https://www.w3schools.com/jsref/jsref_join.asp
+          let params = [];
+          if (author) { if (author != ""){ 
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`author=${encodeURIComponent(author)}`);} }
+          if (year) { if (year != ""){ 
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`year=${encodeURIComponent(year)}`); } }
+          if (title) { if (title != ""){ 
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`title=${encodeURIComponent(title)}`); } }
+          if (min) { if (min != ""){ 
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`min=${encodeURIComponent(min)}`); } }
+                      if (max) { if (max != ""){ 
+          //dont add question mark yet
+          //this line here was gotten with the help of w3Schools
+          // apparently encodeUri helps with like... spaces or something
+            params.push(`max=${encodeURIComponent(max)}`); } }
+
+          if (params.length > 0 ) {
+            //.join w3schools https://www.w3schools.com/jsref/jsref_join.asp
+            finalUrl += '?' +params.join('&');
+          }
+
+        }// end of method === get
+       
+
+        // for post, structure from AI 
+        if (method === 'post'){
+        const formData = `title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}&year=${encodeURIComponent(year)}`;
+        fetchOptions.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        fetchOptions.body = formData;
+        }// end of method === post | End Structure from AI
+        
+        console.log('Sending request:', finalUrl, fetchOptions);
+      //Await our fetch response. Go to the URL, use the right method, and attach the headers.
+      let response = await fetch(finalUrl, fetchOptions)
+
+
+      //Once we have our response, send it into handle response. The second parameter is a boolean
+      //that says if we should parse the response or not. We will get a response to parse on get
+      //requests so we can do an inline boolean check, which will return a true or false to pass in.
+      handleResponse(response, method === 'get');
+      
+    };
+
+
+
+        //Init function is called when window.onload runs (set below).
+    const init = () => {
+      //Grab the form
+      
+     // const nameForm = document.querySelector('#nameForm');
+      //const userForm = document.querySelector('#userForm');
+      
+
+        const bookForm = document.querySelector('#bookForm');
+        const bookTitlesForm = document.querySelector('#bookTitlesForm');
+const bookPagesForm = document.querySelector('#bookPagesForm');
+const allBooksForm = document.querySelector('#allBooksForm');
+const randomBookForm = document.querySelector('#randomBookForm');
+        const addBookForm = document.querySelector('#addBookForm');
+        const updateBookForm = document.querySelector('#updateBookForm');
+      /*
+      //Create an addUser function that cancels the forms default action and
+      //calls our sendPost function above.
+      //const addUser = (e) => {
+      //needs to be an event listener
+        nameForm.addEventListener('submit', (e) => {
+          //debugger
+        e.preventDefault();
+       // sendPost(nameForm);
+        return false;
+      });
+*/
+
+      //function to handle our request. In this case, it also cancels the built in html form action
+      bookForm.addEventListener('submit', (e) => {
+        //debugger;
+        e.preventDefault();
+        requestBooks(bookForm);
+       // requestUpdate(userForm);
+        return false;
+      });
+
+      bookTitlesForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        requestBooks(bookTitlesForm);
+         return false;
+        });
+
+        bookPagesForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        requestBooks(bookPagesForm);
+         return false;
+        });
+
+        allBooksForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+     requestBooks(allBooksForm);
+         return false;
+            });
+
+        randomBookForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+          requestBooks(randomBookForm);
+          return false;
+        });
+
+      addBookForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      requestBooks(addBookForm);
+      return false;
+      });
+
+        updateBookForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        requestBooks(updateBookForm);
+        return false;
+});
+
+
+    };
+
+window.onload = init;
+
+  </script>
+-->
+</head>
+
+
+<body>
+
+
+
+
+  <section id="top">
+  <!--links for the pages -->
+    <p><a href="/">Test the Application Here</a></p>
+  <p><a href="/docs.html">View the Documentation Here</a></p>
+
+         <!--toggle for GET and HEAD-->
+    <section id="methodSelectSection">
+  <label for="bookMethodSelect"><b>Method Select (for GET endpoints):</b></label>
+  <select id="bookMethodSelect" name="methodSelect">
+    <option value="get">GET</option>
+    <option value="head">HEAD</option>
+  </select>
+</section>
+
+<hr>
+    
+    <h3>Search Books|/api/books|Get/Head</h3>
+
+    <h4>Query Params</h4>
+    <p>title: (optional) - A Book's name to filter by</p>
+    <p>author: (optional) - An author's name to filter by</p>
+    <p>year: (optional) - A release year to filter by</p>
+
+    <h4>Returns</h4>
+    <p>A JSON Array of book Object</p>
+    <p>Format: [{}]</p>
+  
+    <h4>Example</h4>
+    <p>Request:/api/books/???</p>
+    <p>result: [{}]</p>
+    
+
+<hr>
+
+<!---->
+
+    <h3>Book Titles|/api/books/titles|Get/Head</h3>
+
+    <h4>Query Params</h4>
+    <p>author: (optional) - An author's name to filter by</p>
+    <p>year: (optional) - A release year to filter by</p>
+    
+    <h4>Returns</h4>
+    <p>A JSON Array of book Object</p>
+    <p>Format: [{}]</p>
+  
+    <h4>Example</h4>
+    <p>Request:/api/books/???</p>
+    <p>result: [{}]</p>
+
+<hr>
+
+<!---->
+
+    <h3>Books By Page Count|/api/books/pages|Get/Head</h3>
+
+    <h4>Query Params</h4>
+    <p>Min Pages: (optional*) - a minimum page number to filter by</p>
+    <p>Max Pages: (optional*) - a maximum page number to filter by</p>
+    <p>(at least one needs to have an input)</p>
+
+    <h4>Returns</h4>
+    <p>A JSON Array of book Object</p>
+    <p>Format: [{}]</p>
+  
+    <h4>Example</h4>
+    <p>Request:/api/books/???</p>
+    <p>result: [{}]</p>
+    
+
+<hr>
+
+<!---->
+
+    <h3>All Books|/api/books/all|Get/Head</h3>
+
+    <h4>Query Params</h4>
+    <p>None</p>
+
+    <h4>Returns</h4>
+    <p>A JSON Array of book Object</p>
+    <p>Format: [{}]</p>
+  
+    <h4>Example</h4>
+    <p>Request:/api/books/???</p>
+    <p>result: [{}]</p>
+    
+
+<hr>
+
+<!---->
+
+    <h3>Random Book|/api/books/random|Get/Head</h3>
+
+    <h4>Query Params</h4>
+    <p>None</p>
+
+    <h4>Returns</h4>
+    <p>A JSON Array of book Object</p>
+    <p>Format: [{}]</p>
+  
+    <h4>Example</h4>
+    <p>Request:/api/books/???</p>
+    <p>result: [{}]</p>
+    
+
+<hr>
+
+<!---->
+
+
+ 
+<h3>Add A Book|/api/books/add|Post</h3>
+
+    <h4>Body Params</h4>
+    <p>title Type: string - name of the Book</p>
+    <p>author Type: string - the name of the author</p>
+    <p>year Type: number - The year of the books release</p>
+    
+    <h4>Returns</h4>
+    <p>A JSON Book object representing the new book</p>
+    <p>Format: [{}]</p>
+  
+    <h4>Example</h4>
+    <p>Request:/api/books/???</p>
+    <p>Body: {}</p>
+    <p>result: [{}]</p>
+
+<hr>
+
+<!---->
+<h3>Update A Book|/api/books/update|Post</h3>
+
+    <h4>Query Params</h4>
+    <p>title: (optional) - A Book's name to filter by</p>
+
+    <h4>Body Params</h4>
+    <p>author Type: string - the name of the author</p>
+    <p>year Type: number - The year of the books release</p>
+    
+    <h4>Returns</h4>
+    <p>A JSON Book object representing the updated book</p>
+    <p>Format: [{}]</p>
+  
+    <h4>Example</h4>
+    <p>Request:/api/books/???</p>
+    <p>Body: {}</p>
+    <p>result: [{}]</p>
+
+    
+
+</form>
+
+<hr>
+
+
+
+<!---->
+
+
+
+
+  </section>
+
+  <section id="content">
+  </section>
+
+</body>
+</html>

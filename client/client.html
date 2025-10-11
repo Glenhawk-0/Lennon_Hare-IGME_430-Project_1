@@ -360,20 +360,29 @@ window.onload = init;
 
 
 <body>
+
+
+
+
   <section id="top">
+  <!--links for the pages -->
+    <p><a href="/">Test the Application Here</a></p>
+  <p><a href="/docs.html">View the Documentation Here</a></p>
+
+         <!--toggle for GET and HEAD-->
+    <section id="methodSelectSection">
+  <label for="bookMethodSelect"><b>Method Select (for GET endpoints):</b></label>
+  <select id="bookMethodSelect" name="methodSelect">
+    <option value="get">GET</option>
+    <option value="head">HEAD</option>
+  </select>
+</section>
+
+<hr>
     
-    
-    <h3>Search Books|/api/books</h3>
+    <h3>Search Books|/api/books|Get/Head</h3>
 
     <form id="bookForm" action="/api/books" method="get">
-      <!--toggle for GET and HEAD-->
-      <a>Method Select:</a>
-      <select id="bookMethodSelect" name="methodSelect">
-        <option value="get">GET</option>
-         <option value="head">HEAD</option>
-      </select>
-<br>
-
 <a>Title:</a>
 <input id="titleField" type="text" name="title"></input> 
 <br>
@@ -383,14 +392,14 @@ window.onload = init;
 <a>Year:</a>
 <input id="yearField" type="text" name="year"></input> 
 <br>
-<input type="submit" value="getBooks" />
+<input type="submit" value="Get Books" />
 </form>
 
 <hr>
 
 <!---->
 
-    <h3>Book Titles|/api/books/titles</h3>
+    <h3>Book Titles|/api/books/titles|Get/Head</h3>
     <form id="bookTitlesForm" action="/api/books/titles" method="get">
  <a>Author:</a>
 <input id="titlesAuthor" type="text" name="author"></input> 
@@ -405,7 +414,7 @@ window.onload = init;
 
 <!---->
 
-    <h3>Books by Page Count|/api/books/pages</h3>
+    <h3>Books By Page Count|/api/books/pages|Get/Head</h3>
     <form id="bookPagesForm" action="/api/books/pages" method="get">
  <a>Min Pages:</a>
 <input id="minPages" type="number" name="min"></input> 
@@ -413,14 +422,14 @@ window.onload = init;
 <a>Max Pages:</a>
 <input id="maxPages" type="number" name="max"></input> 
 <br>
-<input type="submit" value="Filter by Pages" />
+<input type="submit" value="Get Pages" />
 </form>
 
 <hr>
 
 <!---->
 
-    <h3>All Books|/api/books/all</h3>
+    <h3>All Books|/api/books/all|Get/Head</h3>
     <form id="allBooksForm" action="/api/books/all" method="get">
 <input type="submit" value="Get All Books" />
 </form>
@@ -429,7 +438,7 @@ window.onload = init;
 
 <!---->
 
-    <h3>Random Book|/api/books/random</h3>
+    <h3>Random Book|/api/books/random|Get/Head</h3>
     <form id="randomBookForm" action="/api/books/random" method="get">
 <input type="submit" value="Get Random Book" />
 </form>
@@ -440,17 +449,14 @@ window.onload = init;
 
 
     <form id="addBookForm" action="/api/books/add" method="post">
-
-<br>
-
-<h3>Add a Book</h3>
-<a>title:</a>
+<h3>Add A Book|/api/books/add|Post</h3>
+<a>Create Title:</a>
 <input id="addTitle" type="text" name="title"></input> 
 <br>
- <a>Author:</a>
+ <a>Create Author:</a>
 <input id="addAuthor" type="text" name="author"></input> 
 <br>
-<a>Year:</a>
+<a>Create Year:</a>
 <input id="addYear" type="text" name="year"></input> 
 <br>
 <input type="submit" value="Add Book " />
@@ -460,20 +466,17 @@ window.onload = init;
 
 <!---->
     <form id="updateBookForm" action="/api/books/update" method="post">
-
-<br>
-
-<h3>update a book </h3>
-<a>title:</a>
+<h3>Update A Book|/api/books/update|Post</h3>
+<a>Search Title:</a>
 <input id="updateTitle" type="text" name="title"></input> 
 <br>
- <a>Author:</a>
+ <a>Edit Author:</a>
 <input id="updateAuthor" type="text" name="author"></input> 
 <br>
-<a>Year:</a>
+<a>Edit Year:</a>
 <input id="updateYear" type="text" name="year"></input> 
 <br>
-<input type="submit" value="update Book " />
+<input type="submit" value="Update Book " />
 </form>
 
 <hr>
