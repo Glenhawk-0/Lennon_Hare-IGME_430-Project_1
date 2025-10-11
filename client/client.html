@@ -55,7 +55,7 @@
      // `\n Content-Length: response.headers.get(Content-Length')}`;
       //If we have a message, display it.
       if(obj.books){
-
+  content.innerHTML += `<h4>Books Found:</h4>`;
         //let jsonString = JSON.stringify(obj.books); 
        // content.innerHTML += `<p>${jsonString}</p>`;
 
@@ -75,14 +75,16 @@
 
       //for booktitles
       if (obj.bookTitles){
+          content.innerHTML += `<h4>Books Titles Found:</h4>`;
        for(let i = 0 ; i < obj.bookTitles.length ; i++){
             const book =  obj.bookTitles[i];
             content.innerHTML += `<p>${book.title}</p>`
        }
     }
 
-          //for booktitles
+          //for bookPages
       if (obj.bookPages){
+          content.innerHTML += `<h4>Books Pages Found:</h4>`;
        for(let i = 0 ; i < obj.bookPages.length ; i++){
             const book =  obj.bookPages[i];
             content.innerHTML += `<p>${book.title}, Pages: ${book.pages}</p>`
@@ -91,6 +93,7 @@
 
               //for all Books
       if (obj.allBooks){
+          content.innerHTML += `<h4>All Books Found:</h4>`;
        for(let i = 0 ; i < obj.allBooks.length ; i++){
             const book =  obj.allBooks[i];
             content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
@@ -99,6 +102,7 @@
 
       //for a randomBook
       if(obj.book){
+          content.innerHTML += `<h4>Random Book Found:</h4>`;
                   //const book =  obj.books[i];
                   const book =  obj.book;
             content.innerHTML += `<p>${book.title} by ${book.author} , Made in ${book.year}</p>`
