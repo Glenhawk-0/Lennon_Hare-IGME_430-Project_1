@@ -140,19 +140,18 @@ const getBookTitles = (request, response) => {
 // endpoint, get book by page minimum and maximum length. show title and page count
 const getBookLength = (request, response) => {
   // somehow make this a varible thingy
-  let filteredBooks = books;
+  const filteredBooks = books;
 
-
-//https://www.w3schools.com/jsref/jsref_parseint.asp
-// parse int
+  // https://www.w3schools.com/jsref/jsref_parseint.asp
+  // parse int
   const minPages = parseInt(request.query.min, 10);
   const maxPages = parseInt(request.query.max, 10);
 
   /// change this whole thing so that it acepts
   //  a minimum and maximum number of pages and searches between
 
-  //https://www.w3schools.com/jsref/jsref_isnan.asp
-  //is NaN
+  // https://www.w3schools.com/jsref/jsref_isnan.asp
+  // is NaN
   if (Number.isNaN(minPages) && Number.isNaN(maxPages)) {
     const responseJSON = {
       message: 'Please provide at least a minimum or maximum page number.',
@@ -164,32 +163,30 @@ const getBookLength = (request, response) => {
   const results = [];
 
   for (let i = 0; i < filteredBooks.length; i++) {
-    const pages = filteredBooks[i].pages;
+    const { pages } = filteredBooks[i];
 
- // typeof https://www.w3schools.com/js/js_typeof.asp
+    // typeof https://www.w3schools.com/js/js_typeof.asp
     if (typeof pages === 'number') {
-
-    // if both exist
-    if (!Number.isNaN(minPages) && !Number.isNaN(maxPages)) {
-      if (pages >= minPages && pages <= maxPages) {
-        results.push(filteredBooks[i]);
+      // if both exist
+      if (!Number.isNaN(minPages) && !Number.isNaN(maxPages)) {
+        if (pages >= minPages && pages <= maxPages) {
+          results.push(filteredBooks[i]);
+        }
+      }
+      // if only min
+      else if (!Number.isNaN(minPages)) {
+        if (pages >= minPages) {
+          results.push(filteredBooks[i]);
+        }
+      }
+      // if only max
+      else if (!Number.isNaN(maxPages)) {
+        if (pages <= maxPages) {
+          results.push(filteredBooks[i]);
+        }
       }
     }
-    // if only min
-    else if (!Number.isNaN(minPages)) {
-    if (pages >= minPages) {
-       
- results.push(filteredBooks[i]);
-      }
-    }
-    // if only max 
-    else if (!Number.isNaN(maxPages)) {
-if (pages <= maxPages) {
-         results.push(filteredBooks[i]);
-      }
-    }
-  }
-  }//end of checking all that
+  }// end of checking all that
 
   const responseJSON = {
     bookPages: results,
@@ -214,7 +211,7 @@ const getRandomBook = (request, response) => {
 
     book: books[randomNumber],
   };
-  respondJSON(request, response, 200, responseJSON);
+  return respondJSON(request, response, 200, responseJSON);
 };// end of getRandomBook
 
 // endpoint: this will add A book
