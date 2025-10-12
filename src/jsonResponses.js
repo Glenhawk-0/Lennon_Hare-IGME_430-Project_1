@@ -153,7 +153,7 @@ const getBookLength = (request, response) => {
 
   //https://www.w3schools.com/jsref/jsref_isnan.asp
   //is NaN
-  if (isNaN(minPages) && isNaN(maxPages)) {
+  if (Number.isNaN(minPages) && Number.isNaN(maxPages)) {
     const responseJSON = {
       message: 'Please provide at least a minimum or maximum page number.',
       id: 'missingParams',
@@ -170,20 +170,20 @@ const getBookLength = (request, response) => {
     if (typeof pages === 'number') {
 
     // if both exist
-    if (!isNaN(minPages) && !isNaN(maxPages)) {
+    if (!Number.isNaN(minPages) && !Number.isNaN(maxPages)) {
       if (pages >= minPages && pages <= maxPages) {
         results.push(filteredBooks[i]);
       }
     }
     // if only min
-    else if (!isNaN(minPages)) {
+    else if (!Number.isNaN(minPages)) {
     if (pages >= minPages) {
        
  results.push(filteredBooks[i]);
       }
     }
     // if only max 
-    else if (!isNaN(maxPages)) {
+    else if (!Number.isNaN(maxPages)) {
 if (pages <= maxPages) {
          results.push(filteredBooks[i]);
       }
