@@ -360,7 +360,7 @@ window.onload = init;
 </head>
 
 
-<body>
+<body id="extraBody">
 
 
 
@@ -371,12 +371,14 @@ window.onload = init;
   <p><a href="/docs.html">View the Documentation Here</a></p>
 
          <!--toggle for GET and HEAD-->
+       
     <section id="methodSelectSection">
   <label for="bookMethodSelect"><b>Method Select (for GET endpoints):</b></label>
   <select id="bookMethodSelect" name="methodSelect">
     <option value="get">GET</option>
     <option value="head">HEAD</option>
   </select>
+    <a>(this lets the user toggle the content displayed from being either everything or just the head)</a>
 </section>
 
 <hr>
@@ -544,23 +546,11 @@ window.onload = init;
   <section id="extraContent">
 
     
-    Much of the code used in this project was gotten from my professor Willoughby, Austin.
-then alot of chunks of code and certain functions were gotte from w3schools
-i then also used AI to look over my code to find bugs and such and to also push me along in the right direction without just copying and pasting code. 
-<p>
-endpoint 1: '/api/books':        jsonHandler.getBooks,   
-endpoint 2: '/api/books/random': jsonHandler.getRandomBook,
-endpoint 3: '/api/books/titles': jsonHandler.getBookTitles,
-endpoint 4: '/api/books/pages':  jsonHandler.getBookLength,
-endpoint 5: '/api/books/all':    jsonHandler.getAllBooks,
-endpoint 6: '/api/books/add':    jsonHandler.getNewBook ,
-endpoint 7: '/api/books/update': jsonHandler.getUpdateBook,
+    <p>Much of the code used in this project was gotten from my professor Willoughby, Austin.</p>
+<p>then alot of chunks of code and certain functions were gotten from w3schools</p>
+<p>i then also used AI to look over my code to find bugs and such and 
+to also push me along in the right direction without just copying and pasting code. </p>
 
-
-what is this endpoint
-what params does it use body or querySelector
-method (getPostHead) 
-whats it return. </p>
 
 
   </section><!---->

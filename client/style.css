@@ -5,6 +5,18 @@ body {
   height: 100vh;
 }
 
+#extraBody {
+
+  display: flex;
+    flex-direction: column;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+
+
+}
+
 /*have this on the left side*/
 #top {
   width: 50%;
@@ -25,19 +37,17 @@ body {
 
 /*have this on the top side*/
 #extraTop {
-  width: 100%;
+
   padding: 10px;
 
-  overflow-y: auto;
-  border-bottom: 1px solid #ccc;
+  
+
 }
 
 /*have this on the bottom side*/
 #extraContent {
 
   padding: 10px;
-
-  overflow-y: auto;
 }
 
 
