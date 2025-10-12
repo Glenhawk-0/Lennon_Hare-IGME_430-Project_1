@@ -23,6 +23,24 @@ body {
 }
 
 
+/*have this on the top side*/
+#extraTop {
+  width: 100%;
+  padding: 10px;
+
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+
+/*have this on the bottom side*/
+#extraContent {
+
+  padding: 10px;
+
+  overflow-y: auto;
+}
+
+
 h3 {
   margin-top: 15px;
   margin-bottom: 5px;

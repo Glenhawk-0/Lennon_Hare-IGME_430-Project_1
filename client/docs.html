@@ -365,7 +365,7 @@ window.onload = init;
 
 
 
-  <section id="top">
+  <section id="extraTop">
   <!--links for the pages -->
     <p><a href="/">Test the Application Here</a></p>
   <p><a href="/docs.html">View the Documentation Here</a></p>
@@ -389,12 +389,13 @@ window.onload = init;
     <p>year: (optional) - A release year to filter by</p>
 
     <h4>Returns</h4>
-    <p>A JSON Array of book Object</p>
-    <p>Format: [{}]</p>
+    <p>A JSON Array of book Objects</p>
+    <p>Format: [{title: titleString1, author: authorString1, year: number1 },
+      {title: titleString2, author: authorString2, year: number2 }...]</p>
   
     <h4>Example</h4>
-    <p>Request:/api/books/???</p>
-    <p>result: [{}]</p>
+    <p>Request:/api/books?title=title1&author=author1&year=2000</p>
+    <p>result: [{title: 'title1', author: 'author1', year: 2000}]</p>
     
 
 <hr>
@@ -408,12 +409,13 @@ window.onload = init;
     <p>year: (optional) - A release year to filter by</p>
     
     <h4>Returns</h4>
-    <p>A JSON Array of book Object</p>
-    <p>Format: [{}]</p>
+    <p>A JSON Array of book objects with only titles</p>
+    <p>Format: [{title: string1},{title: string2},{title: string3 },...]</p>
   
     <h4>Example</h4>
-    <p>Request:/api/books/???</p>
-    <p>result: [{}]</p>
+    <p>Request:/api/books/titles?author='butt head'&year=1800</p>
+    <p>result: [{title: 'Butt Head the force awakens'},
+      {title: 'butt head the return of the butt'}]</p>
 
 <hr>
 
@@ -427,12 +429,13 @@ window.onload = init;
     <p>(at least one needs to have an input)</p>
 
     <h4>Returns</h4>
-    <p>A JSON Array of book Object</p>
-    <p>Format: [{}]</p>
+    <p>A JSON Array of book Objects, or a 404 if it lacks both a min and max</p>
+    <p>Format: [{title: string1, pages: num1},{title: string2, pages: num2},...]</p>
   
     <h4>Example</h4>
-    <p>Request:/api/books/???</p>
-    <p>result: [{}]</p>
+    <p>Request:/api/books/pages?min=100&max=186</p>
+    <p>result: [{{title: 'this is a short book', pages: 101},
+      {title: 'this is a tad less short', pages: 164}}]</p>
     
 
 <hr>
@@ -445,12 +448,12 @@ window.onload = init;
     <p>None</p>
 
     <h4>Returns</h4>
-    <p>A JSON Array of book Object</p>
-    <p>Format: [{}]</p>
+    <p>A JSON Array of all book Objects</p>
+    <p>Format: [{title: titleString1, author: authorString1, year: number }...........]</p>
   
     <h4>Example</h4>
-    <p>Request:/api/books/???</p>
-    <p>result: [{}]</p>
+    <p>Request:/api/books/all?</p>
+    <p>result: [...]</p>
     
 
 <hr>
@@ -463,12 +466,12 @@ window.onload = init;
     <p>None</p>
 
     <h4>Returns</h4>
-    <p>A JSON Array of book Object</p>
-    <p>Format: [{}]</p>
+    <p>A JSON Array of a random book Object</p>
+    <p>Format: [{title: String, author: String, year: number }]</p>
   
     <h4>Example</h4>
-    <p>Request:/api/books/???</p>
-    <p>result: [{}]</p>
+    <p>Request:/api/books/random</p>
+    <p>result: [{title: 'oh my.. am i a random book?', author: 'mr,random', year: 8312740987 }]</p>
     
 
 <hr>
@@ -479,6 +482,10 @@ window.onload = init;
  
 <h3>Add A Book|/api/books/add|Post</h3>
 
+    <h4>Supported Body Formats</h4>
+    <p>application/json</p>
+    <p>application/x--www-form-urlencoded</p>
+
     <h4>Body Params</h4>
     <p>title Type: string - name of the Book</p>
     <p>author Type: string - the name of the author</p>
@@ -486,33 +493,37 @@ window.onload = init;
     
     <h4>Returns</h4>
     <p>A JSON Book object representing the new book</p>
-    <p>Format: [{}]</p>
+    <p>Format: [{title: titleString, author: authorString, year: number }]</p>
   
     <h4>Example</h4>
-    <p>Request:/api/books/???</p>
-    <p>Body: {}</p>
-    <p>result: [{}]</p>
+    <p>Request:/api/books/add</p>
+    <p>Body: [{title: 'myBook', author: 'me', year: 2025 }]</p>
+    <p>result: [{title: 'myBook', author: 'me', year: 2025 }]</p>
 
 <hr>
 
 <!---->
 <h3>Update A Book|/api/books/update|Post</h3>
 
+    <h4>Supported Body Formats</h4>
+    <p>application/json</p>
+    <p>application/x--www-form-urlencoded</p>
+
     <h4>Query Params</h4>
-    <p>title: (optional) - A Book's name to filter by</p>
+    <p>title: (required) - A Book's name to filter by</p>
 
     <h4>Body Params</h4>
     <p>author Type: string - the name of the author</p>
     <p>year Type: number - The year of the books release</p>
     
     <h4>Returns</h4>
-    <p>A JSON Book object representing the updated book</p>
-    <p>Format: [{}]</p>
+    <p>A JSON Book object representing the updated book or a 404 if their is no title given</p>
+    <p>Format: [{title: titleString, author: authorString, year: number }]</p>
   
     <h4>Example</h4>
-    <p>Request:/api/books/???</p>
-    <p>Body: {}</p>
-    <p>result: [{}]</p>
+    <p>Request:/api/books/update</p>
+    <p>Body: [{title: 'thatBook', author: 'notThem', year: number 2026 }]</p>
+    <p>result: [{title: 'thatBook', author: 'notThem', year: number 2026 }]</p>
 
     
 
@@ -529,8 +540,30 @@ window.onload = init;
 
   </section>
 
-  <section id="content">
-  </section>
+  <!---->
+  <section id="extraContent">
+
+    
+    Much of the code used in this project was gotten from my professor Willoughby, Austin.
+then alot of chunks of code and certain functions were gotte from w3schools
+i then also used AI to look over my code to find bugs and such and to also push me along in the right direction without just copying and pasting code. 
+<p>
+endpoint 1: '/api/books':        jsonHandler.getBooks,   
+endpoint 2: '/api/books/random': jsonHandler.getRandomBook,
+endpoint 3: '/api/books/titles': jsonHandler.getBookTitles,
+endpoint 4: '/api/books/pages':  jsonHandler.getBookLength,
+endpoint 5: '/api/books/all':    jsonHandler.getAllBooks,
+endpoint 6: '/api/books/add':    jsonHandler.getNewBook ,
+endpoint 7: '/api/books/update': jsonHandler.getUpdateBook,
+
+
+what is this endpoint
+what params does it use body or querySelector
+method (getPostHead) 
+whats it return. </p>
+
+
+  </section><!---->
 
 </body>
 </html>
